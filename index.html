@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A10 SPA | Beauty Perfected. Relaxation Redefined. | Nairobi CBD</title>
+    <meta name="description" content="Discover expert beauty treatments and therapeutic wellness experiences at A10 SPA, Nairobi's premier urban luxury beauty lounge. Book now for manicure, massage, pedicure & more."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2D5BFF;
+            --primary-dark: #1a3fcc;
+            --secondary: #1D1D1F;
+            --accent: #7B4DFF;
+            --highlight: #D7A67A;
+            --bg: #FAFAFA;
+            --surface: #F3F5F7;
+            --text: #242424;
+            --text-light: #6b6b6b;
+            --white: #ffffff;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 30px 80px rgba(45, 91, 255, 0.15);
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --radius: 24px;
+            --radius-sm: 14px;
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #loader.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid var(--surface);
+            border-top-color: var(--primary);
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: var(--primary);
+        }
+
+        /* ===== GLOW CURSOR ===== */
+        #glow-cursor {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45, 91, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        @media (max-width: 1024px) {
+            #glow-cursor {
+                display: none;
+            }
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 16px 36px;
+            border-radius: 60px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 8px 30px rgba(45, 91, 255, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 40px rgba(45, 91, 255, 0.45);
+            background: var(--primary-dark);
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 60px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--white);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3);
+            background: #2a2a2c;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+        .btn-rose {
+            background: var(--highlight);
+            color: var(--white);
+            box-shadow: 0 8px 30px rgba(215, 166, 122, 0.35);
+        }
+        .btn-rose:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 40px rgba(215, 166, 122, 0.45);
+            background: #c9966a;
+        }
+        .btn-sm {
+            padding: 10px 22px;
+            font-size: 0.8rem;
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        .section-title {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .section-title .highlight-text {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-sub {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        .section-header {
+            margin-bottom: 48px;
+        }
+        .section-header.center {
+            text-align: center;
+        }
+        .section-header.center .section-sub {
+            margin: 0 auto;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+        nav.scrolled {
+            background: rgba(250, 250, 250, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            padding: 10px 0;
+        }
+        nav .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        nav.scrolled .nav-logo {
+            color: var(--secondary);
+        }
+        .nav-logo span {
+            color: var(--highlight);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            transition: var(--transition);
+            position: relative;
+        }
+        nav.scrolled .nav-links a {
+            color: var(--text);
+        }
+        .nav-links a:hover {
+            color: var(--highlight);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--highlight);
+            transition: var(--transition);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta .btn {
+            padding: 10px 24px;
+            font-size: 0.8rem;
+        }
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+        .nav-toggle span {
+            width: 28px;
+            height: 2.5px;
+            background: var(--white);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        nav.scrolled .nav-toggle span {
+            background: var(--secondary);
+        }
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 320px;
+                height: 100vh;
+                background: var(--white);
+                flex-direction: column;
+                padding: 80px 40px 40px;
+                gap: 20px;
+                box-shadow: -20px 0 60px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+                align-items: flex-start;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                color: var(--text) !important;
+                font-size: 1.1rem;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            .nav-cta {
+                display: none;
+            }
+            .nav-cta.mobile {
+                display: inline-flex;
+                margin-top: 16px;
+            }
+        }
+        .nav-cta.mobile {
+            display: none;
+        }
+        @media (max-width: 1024px) {
+            .nav-cta.mobile {
+                display: inline-flex;
+            }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--secondary);
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .hero-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
+        .hero-bg .gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(29, 29, 31, 0.85) 0%, rgba(29, 29, 31, 0.5) 50%, rgba(45, 91, 255, 0.3) 100%);
+        }
+        /* animated light streaks */
+        .hero-streak {
+            position: absolute;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(45, 91, 255, 0.3), rgba(123, 77, 255, 0.3), transparent);
+            border-radius: 100%;
+            filter: blur(8px);
+            animation: streakMove 12s linear infinite;
+        }
+        .hero-streak:nth-child(1) {
+            top: 20%;
+            left: -30%;
+            animation-delay: 0s;
+        }
+        .hero-streak:nth-child(2) {
+            top: 60%;
+            left: -20%;
+            animation-delay: 4s;
+            width: 40%;
+        }
+        .hero-streak:nth-child(3) {
+            top: 80%;
+            left: -50%;
+            animation-delay: 8s;
+            width: 50%;
+        }
+        @keyframes streakMove {
+            0% {
+                transform: translateX(0) scaleX(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(150vw) scaleX(0.5);
+                opacity: 0;
+            }
+        }
+        /* floating glow orbs */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            animation: floatOrb 14s ease-in-out infinite alternate;
+        }
+        .glow-orb.orb1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            right: -100px;
+        }
+        .glow-orb.orb2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: 4s;
+        }
+        .glow-orb.orb3 {
+            width: 200px;
+            height: 200px;
+            background: var(--highlight);
+            top: 40%;
+            left: 30%;
+            animation-delay: 8s;
+            opacity: 0.1;
+        }
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+            100% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+            padding: 120px 0 80px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 20px 8px 16px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+        .hero-badge i {
+            color: var(--highlight);
+            font-size: 0.9rem;
+        }
+        .hero h1 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 8vw, 5.2rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        .hero h1 .accent-word {
+            background: linear-gradient(135deg, var(--highlight), #f0c8a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: clamp(1rem, 1.4vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 560px;
+            line-height: 1.8;
+            margin-bottom: 36px;
+            font-weight: 400;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .hero-actions .btn {
+            padding: 18px 42px;
+            font-size: 1rem;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hero-stats .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-stats .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--white);
+        }
+        .hero-stats .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .hero-actions .btn {
+                padding: 14px 28px;
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* ===== SECTION DIVIDERS ===== */
+        .section {
+            padding: 100px 0;
+        }
+        .section-dark {
+            background: var(--secondary);
+            color: var(--white);
+        }
+        .section-dark .section-sub {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .section-dark .section-label {
+            color: var(--highlight);
+        }
+        .section-soft {
+            background: var(--surface);
+        }
+
+        /* ===== ABOUT ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-image {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+        .about-image .floating-card {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            padding: 20px 28px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow);
+            max-width: 200px;
+        }
+        .about-image .floating-card .fc-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        .about-image .floating-card .fc-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .about-text h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        .about-text p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+            margin: 24px 0 32px;
+        }
+        .about-features li {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .about-features li i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .about-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 32px;
+        }
+        .about-stat {
+            text-align: center;
+            padding: 16px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .about-stat .num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        .about-stat .lbl {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-image img {
+                height: 350px;
+            }
+            .about-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+            .about-stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+        }
+
+        /* ===== SERVICES ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            cursor: default;
+        }
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-hover);
+        }
+        .service-card .card-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        .service-card .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .service-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        .service-card .card-image .category-tag {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--secondary);
+        }
+        .service-card .card-body {
+            padding: 24px 26px 26px;
+        }
+        .service-card .card-body h3 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+        .service-card .card-body p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+        .service-card .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--surface);
+        }
+        .service-card .card-footer .price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+        .service-card .card-footer .duration {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .service-card .card-footer .btn {
+            padding: 8px 18px;
+            font-size: 0.7rem;
+        }
+
+        /* ===== WHY CHOOSE ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--white);
+            padding: 32px 24px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+        }
+        .feature-card .icon {
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .feature-card h4 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+        .feature-card p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 40px 0;
+        }
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 80px;
+            position: relative;
+        }
+        .timeline-step .step-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .timeline-step:hover .step-icon {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: var(--white);
+        }
+        .timeline-step .step-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .timeline-step .step-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            position: absolute;
+            right: -20px;
+            top: 18px;
+        }
+        @media (max-width: 768px) {
+            .timeline {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .timeline-step {
+                flex-direction: row;
+                width: 100%;
+                gap: 16px;
+            }
+            .timeline-step .step-arrow {
+                position: static;
+                transform: rotate(90deg);
+            }
+        }
+
+        /* ===== PACKAGES ===== */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .package-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .package-card:hover::before {
+            opacity: 1;
+        }
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+        .package-card .pkg-icon {
+            font-size: 2.6rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .package-card h4 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .package-card .pkg-services {
+            list-style: none;
+            margin: 16px 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .package-card .pkg-services li {
+            padding: 4px 0;
+            border-bottom: 1px solid var(--surface);
+        }
+        .package-card .pkg-services li:last-child {
+            border-bottom: none;
+        }
+        .package-card .pkg-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin: 12px 0 16px;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            gap: 30px;
+        }
+        .testimonial-card {
+            min-width: calc(33.333% - 20px);
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 32px 30px;
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+        .testimonial-card .stars {
+            color: #f5b342;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .testimonial-card .quote {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text);
+            font-style: italic;
+            margin-bottom: 14px;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .testimonial-card .author span {
+            font-weight: 400;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        .testimonial-ctrl {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 32px;
+        }
+        .testimonial-ctrl button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .testimonial-ctrl button:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            padding: 10px 24px 10px 20px;
+            border-radius: 60px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+        .rating-badge .big-star {
+            color: #f5b342;
+            font-size: 1.6rem;
+        }
+        .rating-badge .rating-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        .rating-badge .rating-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 1024px) {
+            .testimonial-card {
+                min-width: calc(50% - 15px);
+            }
+        }
+        @media (max-width: 768px) {
+            .testimonial-card {
+                min-width: calc(100% - 0px);
+            }
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 240px;
+            gap: 16px;
+        }
+        .gallery-grid .gallery-item {
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+            position: relative;
+            cursor: pointer;
+        }
+        .gallery-grid .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .gallery-grid .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        .gallery-grid .gallery-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(29, 29, 31, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .gallery-grid .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        .gallery-grid .gallery-item:nth-child(1) {
+            grid-row: span 2;
+        }
+        .gallery-grid .gallery-item:nth-child(4) {
+            grid-column: span 2;
+        }
+        .gallery-grid .gallery-item:nth-child(6) {
+            grid-row: span 2;
+        }
+
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 200px;
+            }
+            .gallery-grid .gallery-item:nth-child(1) {
+                grid-row: span 1;
+            }
+            .gallery-grid .gallery-item:nth-child(4) {
+                grid-column: span 1;
+            }
+            .gallery-grid .gallery-item:nth-child(6) {
+                grid-row: span 1;
+            }
+        }
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-auto-rows: 160px;
+                gap: 10px;
+            }
+        }
+
+        /* ===== TEAM ===== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+        .team-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+        .team-card .team-photo {
+            height: 260px;
+            overflow: hidden;
+        }
+        .team-card .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .team-card:hover .team-photo img {
+            transform: scale(1.06);
+        }
+        .team-card .team-info {
+            padding: 20px 16px 24px;
+        }
+        .team-card .team-info h4 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .team-card .team-info .role {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+        .team-card .team-info .exp {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .team-card .team-info .btn {
+            margin-top: 12px;
+            padding: 8px 20px;
+            font-size: 0.7rem;
+        }
+
+        /* ===== BOOKING ===== */
+        .booking-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .booking-form {
+            background: var(--white);
+            padding: 40px 36px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .booking-form .form-group {
+            margin-bottom: 18px;
+        }
+        .booking-form label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--surface);
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--bg);
+            color: var(--text);
+        }
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(45, 91, 255, 0.1);
+        }
+        .booking-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .booking-form .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 18px;
+            font-size: 1rem;
+        }
+        .booking-info {
+            padding: 20px 0;
+        }
+        .booking-info h3 {
+            font-family: 'Sora', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .booking-info p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .booking-info .info-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .booking-info .info-item i {
+            width: 24px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 992px) {
+            .booking-wrap {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* ===== OFFERS ===== */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .offer-card {
+            background: var(--white);
+            padding: 24px 16px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        .offer-card:hover {
+            border-color: var(--highlight);
+            transform: translateY(-4px);
+        }
+        .offer-card .offer-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .offer-card h5 {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .offer-card p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* ===== INSTAGRAM ===== */
+        .insta-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+        .insta-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+            position: relative;
+            cursor: pointer;
+        }
+        .insta-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .insta-item:hover img {
+            transform: scale(1.08);
+        }
+        .insta-item .insta-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(45, 91, 255, 0.3);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.6rem;
+        }
+        .insta-item:hover .insta-overlay {
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .insta-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* ===== BLOG ===== */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .blog-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+        .blog-card .blog-img {
+            height: 180px;
+            overflow: hidden;
+        }
+        .blog-card .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .blog-card:hover .blog-img img {
+            transform: scale(1.05);
+        }
+        .blog-card .blog-body {
+            padding: 20px 24px 24px;
+        }
+        .blog-card .blog-body .tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .blog-card .blog-body h4 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 6px 0 8px;
+        }
+        .blog-card .blog-body p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .faq-item:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+        }
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        .faq-question i {
+            transition: var(--transition);
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 24px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 24px;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        .contact-details .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .contact-details .contact-item i {
+            font-size: 1.4rem;
+            color: var(--primary);
+            width: 32px;
+            margin-top: 4px;
+        }
+        .contact-details .contact-item h5 {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .contact-details .contact-item p {
+            color: var(--text-light);
+        }
+        .contact-details .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .contact-map {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 300px;
+        }
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--secondary);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 60px 0 30px;
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        footer .footer-brand h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        footer .footer-brand h3 span {
+            color: var(--highlight);
+        }
+        footer .footer-brand p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 280px;
+        }
+        footer .footer-col h5 {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+        footer .footer-col ul {
+            list-style: none;
+        }
+        footer .footer-col ul li {
+            margin-bottom: 8px;
+        }
+        footer .footer-col ul a {
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        footer .footer-col ul a:hover {
+            color: var(--highlight);
+        }
+        footer .footer-newsletter input {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            width: 100%;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+        footer .footer-newsletter input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        footer .footer-newsletter .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        footer .social-links {
+            display: flex;
+            gap: 14px;
+            margin-top: 12px;
+        }
+        footer .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        footer .social-links a:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+        footer .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+        footer .footer-bottom a {
+            transition: var(--transition);
+        }
+        footer .footer-bottom a:hover {
+            color: var(--highlight);
+        }
+
+        @media (max-width: 992px) {
+            footer .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            footer .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== FLOATING BEAUTY SILHOUETTES ===== */
+        .floating-silhouette {
+            position: absolute;
+            font-size: 6rem;
+            color: rgba(45, 91, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatSilhouette 20s ease-in-out infinite alternate;
+        }
+        @keyframes floatSilhouette {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(40px, -30px) rotate(10deg);
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            .container {
+                padding: 0 16px;
+            }
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .hero-stats .stat-number {
+                font-size: 1.4rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .about-image img {
+                height: 260px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .offers-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            .booking-form {
+                padding: 24px 18px;
+            }
+        }
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .offers-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-stats {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">A10 SPA</div>
+    </div>
+
+    <!-- GLOW CURSOR -->
+    <div id="glow-cursor"></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">A10<span>SPA</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#packages">Packages</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="nav-cta mobile"><a href="#booking" class="btn btn-primary btn-sm">Book Now</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#booking" class="btn btn-primary btn-sm">Book Now</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <!-- fallback gradient if video fails -->
+            <div class="gradient-overlay"></div>
+            <!-- animated streaks -->
+            <div class="hero-streak"></div>
+            <div class="hero-streak"></div>
+            <div class="hero-streak"></div>
+            <div class="glow-orb orb1"></div>
+            <div class="glow-orb orb2"></div>
+            <div class="glow-orb orb3"></div>
+            <!-- floating silhouettes -->
+            <div class="floating-silhouette" style="top:10%;left:5%;font-size:8rem;">💅</div>
+            <div class="floating-silhouette" style="bottom:15%;right:8%;font-size:6rem;animation-delay:6s;">🧖</div>
+            <div class="floating-silhouette" style="top:50%;left:80%;font-size:5rem;animation-delay:12s;">✨</div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i> 4.9★ Google Rating · Nairobi's Premium Beauty Lounge
+                </div>
+                <h1>Beauty Perfected.<br><span class="accent-word">Relaxation Redefined.</span></h1>
+                <p>Discover expert beauty treatments and therapeutic wellness experiences in a stylish, modern space where every detail is designed around you.</p>
+                <div class="hero-actions">
+                    <a href="#booking" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book Now</a>
+                    <a href="#services" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--white);">Explore Services</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number"><span class="counter" data-target="4.9">0</span>★</span>
+                        <span class="stat-label">Google Rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><span class="counter" data-target="33">0</span>+</span>
+                        <span class="stat-label">Reviews</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><span class="counter" data-target="5">0</span>+</span>
+                        <span class="stat-label">Premium Services</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><span class="counter" data-target="500">0</span>+</span>
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image fade-up">
+                    <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&h=500&fit=crop&crop=center" alt="A10 SPA luxury interior" loading="lazy"/>
+                    <div class="floating-card">
+                        <div class="fc-number">4.9★</div>
+                        <div class="fc-label">Exceptional Service</div>
+                    </div>
+                </div>
+                <div class="about-text fade-up">
+                    <span class="section-label">About A10 SPA</span>
+                    <h2>Where Urban Luxury Meets <span class="highlight-text">Beauty &amp; Wellness</span></h2>
+                    <p>Located at Nanak House, Kimathi Street, Nairobi, A10 SPA is a premium beauty and wellness destination that redefines self-care. Our expert therapists and beauty technicians deliver outstanding results in a space that feels as stylish as it is serene.</p>
+                    <ul class="about-features">
+                        <li><i class="fas fa-check-circle"></i> Expert Therapists</li>
+                        <li><i class="fas fa-check-circle"></i> Professional Technicians</li>
+                        <li><i class="fas fa-check-circle"></i> Outstanding Cleanliness</li>
+                        <li><i class="fas fa-check-circle"></i> Premium Customer Care</li>
+                        <li><i class="fas fa-check-circle"></i> Relaxing Atmosphere</li>
+                        <li><i class="fas fa-check-circle"></i> Modern Facilities</li>
+                    </ul>
+                    <a href="#services" class="btn btn-primary">Explore Services <i class="fas fa-arrow-right"></i></a>
+                    <div class="about-stats-grid">
+                        <div class="about-stat">
+                            <div class="num">4.9★</div>
+                            <div class="lbl">Google Rating</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="num">33+</div>
+                            <div class="lbl">Reviews</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="num">5+</div>
+                            <div class="lbl">Premium Services</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="num">500+</div>
+                            <div class="lbl">Happy Clients</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section section-soft" id="services">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Our Services</span>
+                <h2 class="section-title">Luxury Treatments <span class="highlight-text">Curated for You</span></h2>
+                <p class="section-sub">From expert nail artistry to therapeutic massage, every service is delivered with precision, care, and style.</p>
+            </div>
+            <div class="services-grid">
+                <!-- Massage Therapy -->
+                <div class="service-card fade-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=300&fit=crop&crop=center" alt="Massage Therapy" loading="lazy"/>
+                        <span class="category-tag">Massage</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Massage Therapy</h3>
+                        <p>Swedish, deep tissue, and relaxation massages to soothe muscles and restore balance.</p>
+                        <div class="card-footer">
+                            <span class="price">KES 2,500+</span>
+                            <span class="duration"><i class="far fa-clock"></i> 60 min</span>
+                            <a href="#booking" class="btn btn-primary btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nail Studio -->
+                <div class="service-card fade-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&h=300&fit=crop&crop=center" alt="Nail Studio" loading="lazy"/>
+                        <span class="category-tag">Nails</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Nail Studio</h3>
+                        <p>Acrylics, gel polish, extensions, and bespoke nail art by professional technicians.</p>
+                        <div class="card-footer">
+                            <span class="price">KES 1,800+</span>
+                            <span class="duration"><i class="far fa-clock"></i> 45 min</span>
+                            <a href="#booking" class="btn btn-primary btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hand & Foot Care -->
+                <div class="service-card fade-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&h=300&fit=crop&crop=center" alt="Manicure & Pedicure" loading="lazy"/>
+                        <span class="category-tag">Hand &amp; Foot</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Luxury Manicure &amp; Pedicure</h3>
+                        <p>Deluxe treatments that leave your hands and feet soft, polished, and beautifully cared for.</p>
+                        <div class="card-footer">
+                            <span class="price">KES 2,200+</span>
+                            <span class="duration"><i class="far fa-clock"></i> 60 min</span>
+                            <a href="#booking" class="btn btn-primary btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Body Care -->
+                <div class="service-card fade-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&h=300&fit=crop&crop=center" alt="Body Scrub" loading="lazy"/>
+                        <span class="category-tag">Body</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Body Scrub &amp; Exfoliation</h3>
+                        <p>Reveal radiant skin with our nourishing body scrubs and professional exfoliation treatments.</p>
+                        <div class="card-footer">
+                            <span class="price">KES 3,000+</span>
+                            <span class="duration"><i class="far fa-clock"></i> 50 min</span>
+                            <a href="#booking" class="btn btn-primary btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Swedish Massage -->
+                <div class="service-card fade-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&h=300&fit=crop&crop=center" alt="Swedish Massage" loading="lazy"/>
+                        <span class="category-tag">Massage</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Swedish Massage</h3>
+                        <p>Gentle, flowing strokes that promote relaxation, improve circulation, and ease tension.</p>
+                        <div class="card-footer">
+                            <span class="price">KES 2,800+</span>
+                            <span class="duration"><i class="far fa-clock"></i> 60 min</span>
+                            <a href="#booking" class="btn btn-primary btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Deep Tissue -->
+                <div class="service-card fade-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&h=300&fit=crop&crop=center" alt="Deep Tissue" loading="lazy"/>
+                        <span class="category-tag">Massage</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Deep Tissue Massage</h3>
+                        <p>Targeted pressure to relieve chronic muscle tension and restore deep tissue health.</p>
+                        <div class="card-footer">
+                            <span class="price">KES 3,200+</span>
+                            <span class="duration"><i class="far fa-clock"></i> 60 min</span>
+                            <a href="#booking" class="btn btn-primary btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE -->
+    <section class="section" id="why">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Why Choose Us</span>
+                <h2 class="section-title">The A10 <span class="highlight-text">Difference</span></h2>
+                <p class="section-sub">Every detail is crafted to elevate your experience — from our team to our products to our space.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-up"><span class="icon"><i class="fas fa-users"></i></span><h4>Professional Team</h4><p>Certified therapists and beauty experts dedicated to your care.</p></div>
+                <div class="feature-card fade-up"><span class="icon"><i class="fas fa-spa"></i></span><h4>Exceptional Cleanliness</h4><p>Immaculate standards that exceed expectations every visit.</p></div>
+                <div class="feature-card fade-up"><span class="icon"><i class="fas fa-heart"></i></span><h4>Personalized Service</h4><p>Every treatment tailored to your unique needs and preferences.</p></div>
+                <div class="feature-card fade-up"><span class="icon"><i class="fas fa-crown"></i></span><h4>Premium Products</h4><p>Only the finest professional-grade products for your skin and nails.</p></div>
+                <div class="feature-card fade-up"><span class="icon"><i class="fas fa-leaf"></i></span><h4>Comfortable Environment</h4><p>Designed for relaxation with modern elegance and warmth.</p></div>
+                <div class="feature-card fade-up"><span class="icon"><i class="fas fa-gem"></i></span><h4>Affordable Luxury</h4><p>World-class experiences at prices that welcome everyone.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section section-dark" id="experience">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Your Journey</span>
+                <h2 class="section-title" style="color:var(--white);">From Arrival to <span class="highlight-text">Glow</span></h2>
+                <p class="section-sub" style="color:rgba(255,255,255,0.6);">A seamless experience designed for your ultimate relaxation and confidence.</p>
+            </div>
+            <div class="timeline fade-up">
+                <div class="timeline-step"><div class="step-icon"><i class="fas fa-calendar-check"></i></div><span class="step-label">Book</span><span class="step-arrow"><i class="fas fa-chevron-right"></i></span></div>
+                <div class="timeline-step"><div class="step-icon"><i class="fas fa-comment-dots"></i></div><span class="step-label">Consultation</span><span class="step-arrow"><i class="fas fa-chevron-right"></i></span></div>
+                <div class="timeline-step"><div class="step-icon"><i class="fas fa-hand-sparkles"></i></div><span class="step-label">Treatment</span><span class="step-arrow"><i class="fas fa-chevron-right"></i></span></div>
+                <div class="timeline-step"><div class="step-icon"><i class="fas fa-bed"></i></div><span class="step-label">Relax</span><span class="step-arrow"><i class="fas fa-chevron-right"></i></span></div>
+                <div class="timeline-step"><div class="step-icon"><i class="fas fa-sun"></i></div><span class="step-label">Glow &amp; Leave</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="section section-soft" id="packages">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Packages</span>
+                <h2 class="section-title">Curated <span class="highlight-text">Beauty Journeys</span></h2>
+                <p class="section-sub">Save more when you combine treatments — designed for the ultimate self-care day.</p>
+            </div>
+            <div class="packages-grid">
+                <div class="package-card fade-up"><div class="pkg-icon"><i class="fas fa-hand-sparkles"></i></div><h4>Beauty Refresh</h4><ul class="pkg-services"><li>Massage Therapy</li><li>Luxury Manicure</li></ul><div class="pkg-price">KES 4,200</div><a href="#booking" class="btn btn-primary btn-sm">Book Now</a></div>
+                <div class="package-card fade-up"><div class="pkg-icon"><i class="fas fa-gem"></i></div><h4>Glow Package</h4><ul class="pkg-services"><li>Body Scrub</li><li>Swedish Massage</li><li>Deluxe Pedicure</li></ul><div class="pkg-price">KES 6,500</div><a href="#booking" class="btn btn-primary btn-sm">Book Now</a></div>
+                <div class="package-card fade-up"><div class="pkg-icon"><i class="fas fa-crown"></i></div><h4>Ultimate Beauty Day</h4><ul class="pkg-services"><li>Massage Therapy</li><li>Body Scrub</li><li>Acrylic Nails</li><li>Luxury Pedicure</li></ul><div class="pkg-price">KES 9,800</div><a href="#booking" class="btn btn-primary btn-sm">Book Now</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" id="testimonials">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Testimonials</span>
+                <h2 class="section-title">What Our Clients <span class="highlight-text">Say</span></h2>
+                <div class="rating-badge"><span class="big-star">★</span><span class="rating-num">4.9</span><span class="rating-label">Google Rating · 33+ Reviews</span></div>
+            </div>
+            <div class="testimonials-wrap fade-up">
+                <div class="testimonials-track" id="testTrack">
+                    <div class="testimonial-card"><div class="stars">★★★★★</div><div class="quote">"The lashes were flawless, the nails were beautifully done, and the service was amazing."</div><div class="author">Sarah M. <span>· Nairobi</span></div></div>
+                    <div class="testimonial-card"><div class="stars">★★★★★</div><div class="quote">"Professional, warm team with excellent customer care. I felt so pampered!"</div><div class="author">James K. <span>· Westlands</span></div></div>
+                    <div class="testimonial-card"><div class="stars">★★★★★</div><div class="quote">"The cleanliness and attention to detail are truly outstanding. Best spa in Nairobi."</div><div class="author">Grace W. <span>· Kilimani</span></div></div>
+                    <div class="testimonial-card"><div class="stars">★★★★★</div><div class="quote">"A truly luxurious experience from start to finish. I'll definitely be coming back."</div><div class="author">Michael O. <span>· Lavington</span></div></div>
+                    <div class="testimonial-card"><div class="stars">★★★★★</div><div class="quote">"The therapists are incredibly skilled and the ambiance is just perfect."</div><div class="author">Faith N. <span>· Runda</span></div></div>
+                </div>
+            </div>
+            <div class="testimonial-ctrl">
+                <button id="testPrev"><i class="fas fa-chevron-left"></i></button>
+                <button id="testNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section section-soft" id="gallery">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Gallery</span>
+                <h2 class="section-title">Visual <span class="highlight-text">Inspiration</span></h2>
+                <p class="section-sub">Step inside A10 SPA — where every corner is designed for beauty and relaxation.</p>
+            </div>
+            <div class="gallery-grid fade-up">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&h=300&fit=crop&crop=center" alt="SPA interior" loading="lazy"/><div class="overlay">Luxury Interior</div></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=300&fit=crop&crop=center" alt="Nail art" loading="lazy"/><div class="overlay">Nail Artistry</div></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center" alt="Massage room" loading="lazy"/><div class="overlay">Massage Room</div></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&h=300&fit=crop&crop=center" alt="Therapist at work" loading="lazy"/><div class="overlay">Expert Therapists</div></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=400&h=300&fit=crop&crop=center" alt="Beauty products" loading="lazy"/><div class="overlay">Premium Products</div></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&h=300&fit=crop&crop=center" alt="Reception" loading="lazy"/><div class="overlay">Modern Reception</div></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=300&fit=crop&crop=center" alt="Client experience" loading="lazy"/><div class="overlay">Client Experience</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section" id="team">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Meet The Team</span>
+                <h2 class="section-title">Expert Hands, <span class="highlight-text">Beautiful Results</span></h2>
+                <p class="section-sub">Our therapists and beauty technicians are passionate about making you look and feel your best.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card fade-up"><div class="team-photo"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=300&h=300&fit=crop&crop=center" alt="Therapist" loading="lazy"/></div><div class="team-info"><h4>Grace Wanjiru</h4><div class="role">Lead Massage Therapist</div><div class="exp">8 years experience</div><a href="#booking" class="btn btn-primary btn-sm">Book with Grace</a></div></div>
+                <div class="team-card fade-up"><div class="team-photo"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=300&h=300&fit=crop&crop=center" alt="Nail tech" loading="lazy"/></div><div class="team-info"><h4>Faith Akinyi</h4><div class="role">Nail Art Specialist</div><div class="exp">6 years experience</div><a href="#booking" class="btn btn-primary btn-sm">Book with Faith</a></div></div>
+                <div class="team-card fade-up"><div class="team-photo"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=300&fit=crop&crop=center" alt="Beauty therapist" loading="lazy"/></div><div class="team-info"><h4>David Mwangi</h4><div class="role">Body Care Expert</div><div class="exp">7 years experience</div><a href="#booking" class="btn btn-primary btn-sm">Book with David</a></div></div>
+                <div class="team-card fade-up"><div class="team-photo"><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=300&h=300&fit=crop&crop=center" alt="Spa therapist" loading="lazy"/></div><div class="team-info"><h4>Susan Njeri</h4><div class="role">Spa &amp; Wellness Therapist</div><div class="exp">5 years experience</div><a href="#booking" class="btn btn-primary btn-sm">Book with Susan</a></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="section section-soft" id="booking">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Book Your Experience</span>
+                <h2 class="section-title">Ready to <span class="highlight-text">Glow?</span></h2>
+                <p class="section-sub">Secure your spot at Nairobi's premier beauty lounge. We can't wait to welcome you.</p>
+            </div>
+            <div class="booking-wrap fade-up">
+                <div class="booking-form">
+                    <form id="bookingForm" novalidate>
+                        <div class="form-group"><label for="bookName">Full Name</label><input type="text" id="bookName" placeholder="Your full name" required/></div>
+                        <div class="form-group"><label for="bookPhone">Phone Number</label><input type="tel" id="bookPhone" placeholder="0712 345 678" required/></div>
+                        <div class="form-group"><label for="bookEmail">Email Address</label><input type="email" id="bookEmail" placeholder="you@example.com" required/></div>
+                        <div class="form-group"><label for="bookService">Select Service</label>
+                            <select id="bookService"><option value="">Choose a treatment</option><option>Massage Therapy</option><option>Swedish Massage</option><option>Deep Tissue Massage</option><option>Acrylic Nails</option><option>Gel Polish</option><option>Nail Extensions</option><option>Nail Art</option><option>Luxury Manicure</option><option>Deluxe Pedicure</option><option>Spa Pedicure</option><option>Body Scrub</option><option>Exfoliation</option></select>
+                        </div>
+                        <div class="form-group"><label for="bookDate">Preferred Date</label><input type="date" id="bookDate" required/></div>
+                        <div class="form-group"><label for="bookTime">Preferred Time</label><input type="time" id="bookTime" required/></div>
+                        <div class="form-group"><label for="bookNotes">Notes / Requests</label><textarea id="bookNotes" placeholder="Any special requests or preferences..."></textarea></div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Confirm Booking</button>
+                    </form>
+                    <div id="bookingConfirm" style="display:none;margin-top:16px;padding:16px;background:#e8f5e9;border-radius:var(--radius-sm);color:#2e7d32;font-weight:600;text-align:center;"><i class="fas fa-check-circle" style="font-size:1.4rem;"></i> Booking confirmed! We'll contact you shortly.</div>
+                </div>
+                <div class="booking-info">
+                    <h3>Visit Us</h3>
+                    <p>Located in the heart of Nairobi CBD, A10 SPA is your urban sanctuary for beauty and relaxation.</p>
+                    <div class="info-item"><i class="fas fa-map-pin"></i> <span><strong>Nanak House, Kimathi Street</strong>, Nairobi</span></div>
+                    <div class="info-item"><i class="fas fa-phone"></i> <span><a href="tel:0768996550">0768 996550</a></span></div>
+                    <div class="info-item"><i class="fas fa-clock"></i> <span><strong>Open Daily</strong> · 9:00 AM – 8:00 PM</span></div>
+                    <div class="info-item"><i class="fab fa-whatsapp"></i> <span><a href="https://wa.me/254768996550" target="_blank">Chat on WhatsApp</a></span></div>
+                    <div class="contact-actions">
+                        <a href="https://wa.me/254768996550" target="_blank" class="btn btn-rose"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        <a href="tel:0768996550" class="btn btn-secondary"><i class="fas fa-phone"></i> Call</a>
+                        <a href="https://maps.google.com/?q=Nanak+House+Kimathi+Street+Nairobi" target="_blank" class="btn btn-outline"><i class="fas fa-directions"></i> Directions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFERS -->
+    <section class="section" id="offers">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Special Offers</span>
+                <h2 class="section-title">Exclusive <span class="highlight-text">Deals</span></h2>
+                <p class="section-sub">Beauty should be accessible. Explore our special packages and discounts.</p>
+            </div>
+            <div class="offers-grid">
+                <div class="offer-card fade-up"><span class="offer-icon"><i class="fas fa-user-graduate"></i></span><h5>Student Discounts</h5><p>15% off with valid ID</p></div>
+                <div class="offer-card fade-up"><span class="offer-icon"><i class="fas fa-birthday-cake"></i></span><h5>Birthday Packages</h5><p>Special treatments for your day</p></div>
+                <div class="offer-card fade-up"><span class="offer-icon"><i class="fas fa-users"></i></span><h5>Group Packages</h5><p>Bring friends &amp; save more</p></div>
+                <div class="offer-card fade-up"><span class="offer-icon"><i class="fas fa-star"></i></span><h5>Loyalty Rewards</h5><p>Earn points with every visit</p></div>
+                <div class="offer-card fade-up"><span class="offer-icon"><i class="fas fa-gift"></i></span><h5>Gift Cards</h5><p>The perfect gift for any occasion</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSTAGRAM -->
+    <section class="section section-soft" id="instagram">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Follow Us</span>
+                <h2 class="section-title">#A10SPA <span class="highlight-text">On Instagram</span></h2>
+                <p class="section-sub">Tag us in your photos for a chance to be featured.</p>
+            </div>
+            <div class="insta-grid fade-up">
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=300&h=300&fit=crop&crop=center" alt="Instagram" loading="lazy"/><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=300&h=300&fit=crop&crop=center" alt="Instagram" loading="lazy"/><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=300&fit=crop&crop=center" alt="Instagram" loading="lazy"/><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=300&h=300&fit=crop&crop=center" alt="Instagram" loading="lazy"/><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=300&h=300&fit=crop&crop=center" alt="Instagram" loading="lazy"/><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=300&h=300&fit=crop&crop=center" alt="Instagram" loading="lazy"/><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG / BEAUTY TIPS -->
+    <section class="section" id="blog">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Beauty Tips</span>
+                <h2 class="section-title">Insights &amp; <span class="highlight-text">Inspiration</span></h2>
+                <p class="section-sub">Expert advice on nail care, massage benefits, skincare, and self-care rituals.</p>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card fade-up"><div class="blog-img"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=250&fit=crop&crop=center" alt="Nail care" loading="lazy"/></div><div class="blog-body"><span class="tag">Nail Care</span><h4>5 Tips for Strong, Healthy Nails</h4><p>Discover how to keep your nails strong and beautiful between salon visits.</p></div></div>
+                <div class="blog-card fade-up"><div class="blog-img"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=250&fit=crop&crop=center" alt="Massage benefits" loading="lazy"/></div><div class="blog-body"><span class="tag">Wellness</span><h4>The Science of Massage: Why It Works</h4><p>Explore the physical and mental benefits of regular massage therapy.</p></div></div>
+                <div class="blog-card fade-up"><div class="blog-img"><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&h=250&fit=crop&crop=center" alt="Skincare" loading="lazy"/></div><div class="blog-body"><span class="tag">Skincare</span><h4>Glowing Skin: The Power of Exfoliation</h4><p>How regular body scrubs can transform your skin's texture and radiance.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section-soft" id="faq">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-title">Got <span class="highlight-text">Questions?</span></h2>
+                <p class="section-sub">Everything you need to know before your visit to A10 SPA.</p>
+            </div>
+            <div class="faq-list fade-up">
+                <div class="faq-item"><button class="faq-question">Do I need an appointment? <i class="fas fa-chevron-down"></i></button><div class="faq-answer">Yes, we recommend booking in advance to secure your preferred time and treatment. Walk-ins are welcome subject to availability.</div></div>
+                <div class="faq-item"><button class="faq-question">Do you accept walk-ins? <i class="fas fa-chevron-down"></i></button><div class="faq-answer">We do accept walk-ins, but availability is not guaranteed. We always prioritize appointments.</div></div>
+                <div class="faq-item"><button class="faq-question">How long do treatments take? <i class="fas fa-chevron-down"></i></button><div class="faq-answer">Treatment times vary: massages are 50–70 min, nail services 45–60 min, and body scrubs 50 min. Packages may take longer.</div></div>
+                <div class="faq-item"><button class="faq-question">What products do you use? <i class="fas fa-chevron-down"></i></button><div class="faq-answer">We use only premium, professional-grade products from trusted international and local brands, selected for quality and safety.</div></div>
+                <div class="faq-item"><button class="faq-question">Do you offer group bookings? <i class="fas fa-chevron-down"></i></button><div class="faq-answer">Yes! We love hosting groups for birthdays, bridal parties, and corporate wellness events. Contact us to arrange a bespoke package.</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header center fade-up">
+                <span class="section-label">Contact</span>
+                <h2 class="section-title">Get In <span class="highlight-text">Touch</span></h2>
+                <p class="section-sub">We'd love to hear from you. Reach out for bookings, inquiries, or just to say hello.</p>
+            </div>
+            <div class="contact-grid fade-up">
+                <div class="contact-details">
+                    <div class="contact-item"><i class="fas fa-map-pin"></i><div><h5>Location</h5><p>Nanak House, Kimathi Street, Nairobi CBD</p></div></div>
+                    <div class="contact-item"><i class="fas fa-phone"></i><div><h5>Call Us</h5><p><a href="tel:0768996550">0768 996550</a></p></div></div>
+                    <div class="contact-item"><i class="fas fa-clock"></i><div><h5>Opening Hours</h5><p>Open Daily · 9:00 AM – 8:00 PM</p></div></div>
+                    <div class="contact-item"><i class="fas fa-envelope"></i><div><h5>Email</h5><p><a href="mailto:info@a10spa.co.ke">info@a10spa.co.ke</a></p></div></div>
+                    <div class="contact-actions">
+                        <a href="https://wa.me/254768996550" target="_blank" class="btn btn-rose"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        <a href="tel:0768996550" class="btn btn-secondary"><i class="fas fa-phone"></i> Call</a>
+                        <a href="https://maps.google.com/?q=Nanak+House+Kimathi+Street+Nairobi" target="_blank" class="btn btn-outline"><i class="fas fa-directions"></i> Directions</a>
+                        <a href="#booking" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book Now</a>
+                    </div>
+                </div>
+                <div class="contact-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255.27796319490542!2d36.82164347511646!3d-1.283145088819819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d5e6daa08b%3A0x6a9e7c7f5f8d9e0!2sNanak%20House%2C%20Kimathi%20St%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>A10<span>SPA</span></h3>
+                    <p>Beauty Perfected. Relaxation Redefined. Nairobi's premier urban beauty lounge at Nanak House, Kimathi Street.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col"><h5>Quick Links</h5><ul><li><a href="#services">Services</a></li><li><a href="#packages">Packages</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#booking">Book Now</a></li></ul></div>
+                <div class="footer-col"><h5>Services</h5><ul><li><a href="#services">Massage Therapy</a></li><li><a href="#services">Nail Studio</a></li><li><a href="#services">Manicure &amp; Pedicure</a></li><li><a href="#services">Body Scrub</a></li></ul></div>
+                <div class="footer-col"><div class="footer-newsletter"><h5>Stay Glowing</h5><p style="font-size:0.9rem;margin-bottom:12px;">Subscribe for beauty tips and exclusive offers.</p><input type="email" placeholder="Your email address"/><button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Subscribe</button></div></div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 A10 SPA. All rights reserved.</span>
+                <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#booking">Book Now</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== LOADER =====
+        window.addEventListener('load', () => {
+            document.getElementById('loader').classList.add('hide');
+            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
+            initCounters();
+            observeFade();
+        });
+
+        // ===== NAV =====
+        const nav = document.getElementById('navbar');
+        const toggle = document.getElementById('navToggle');
+        const links = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('active');
+            links.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                links.classList.remove('open');
+            });
+        });
+
+        // ===== GLOW CURSOR =====
+        const glow = document.getElementById('glow-cursor');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            glow.style.opacity = '1';
+        });
+        document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+
+        // ===== TESTIMONIALS CAROUSEL =====
+        const track = document.getElementById('testTrack');
+        const prevBtn = document.getElementById('testPrev');
+        const nextBtn = document.getElementById('testNext');
+        let currentIdx = 0;
+        const cards = track.querySelectorAll('.testimonial-card');
+        const visible = window.innerWidth < 768 ? 1 : (window.innerWidth < 1024 ? 2 : 3);
+        const total = cards.length;
+
+        function updateCarousel() {
+            const cardWidth = cards[0].offsetWidth + 30; // + gap
+            const offset = -currentIdx * cardWidth;
+            track.style.transform = `translateX(${offset}px)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIdx = (currentIdx + 1) % (total - visible + 1);
+            updateCarousel();
+        });
+        prevBtn.addEventListener('click', () => {
+            currentIdx = (currentIdx - 1 + (total - visible + 1)) % (total - visible + 1);
+            updateCarousel();
+        });
+
+        window.addEventListener('resize', updateCarousel);
+        setTimeout(updateCarousel, 300);
+
+        // ===== FAQ ACCORDION =====
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+
+        // ===== BOOKING FORM =====
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const confirm = document.getElementById('bookingConfirm');
+            confirm.style.display = 'block';
+            this.reset();
+            setTimeout(() => { confirm.style.display = 'none'; }, 6000);
+        });
+
+        // ===== COUNTER ANIMATION =====
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseFloat(counter.dataset.target);
+                const isFloat = target % 1 !== 0;
+                const duration = 1800;
+                const startTime = performance.now();
+
+                function updateCounter(time) {
+                    const elapsed = time - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = eased * target;
+                    counter.textContent = isFloat ? current.toFixed(1) : Math.floor(current);
+                    if (progress < 1) requestAnimationFrame(updateCounter);
+                    else counter.textContent = isFloat ? target.toFixed(1) : target;
+                }
+                // start when visible
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        requestAnimationFrame(updateCounter);
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.5 });
+                observer.observe(counter);
+            });
+        }
+
+        // ===== FADE-UP ON SCROLL =====
+        function observeFade() {
+            const els = document.querySelectorAll('.fade-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            els.forEach(el => observer.observe(el));
+        }
+
+        // ===== SMOOTH SCROLL for nav links =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== PARALLAX for hero (simple) =====
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                const scrolled = window.scrollY;
+                const bg = hero.querySelector('.hero-bg');
+                if (bg) {
+                    bg.style.transform = `translateY(${scrolled * 0.15}px)`;
+                }
+            }
+        });
+    </script>
+
+    <!-- Structured Data: LocalBusiness -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BeautySalon",
+            "name": "A10 SPA",
+            "image": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&h=500&fit=crop&crop=center",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Nanak House, Kimathi Street",
+                "addressLocality": "Nairobi",
+                "addressCountry": "KE"
+            },
+            "telephone": "+254768996550",
+            "openingHours": "Mo-Su 09:00-20:00",
+            "priceRange": "KES 1,800 - KES 10,000",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": "33"
+            }
+        }
+    </script>
+    <!-- Structured Data: FAQ -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                { "@type": "Question", "name": "Do I need an appointment?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, we recommend booking in advance to secure your preferred time and treatment." } },
+                { "@type": "Question", "name": "Do you accept walk-ins?", "acceptedAnswer": { "@type": "Answer", "text": "We do accept walk-ins, but availability is not guaranteed." } },
+                { "@type": "Question", "name": "How long do treatments take?", "acceptedAnswer": { "@type": "Answer", "text": "Treatment times vary: massages are 50–70 min, nail services 45–60 min, and body scrubs 50 min." } }
+            ]
+        }
+    </script>
+</body>
+</html>
